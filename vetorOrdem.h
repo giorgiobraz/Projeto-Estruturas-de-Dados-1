@@ -1,3 +1,4 @@
+#include <stdio.h>
 #define TAM 10
 
 typedef enum boolean{false=0, true=1} Boolean;
@@ -191,7 +192,19 @@ Vetor* vetor_clone(Vetor* v){
     return vClone;
 }
 /************************************************************************/
-void vetor_ordenarBuble(Vetor* v);
+void vetor_ordenarBuble(Vetor* v){
+    int i, fim;
+    for (fim=v->qtde-1; fim>0; fim--) {
+        int houve_troca = 0;
+        for (i=0; i<fim; i++){
+            if (v->array[i]>v->array[i+1]) {
+                troca(&v->array[i], &v->array[i+1]);
+                houve_troca = 1;
+            }
+        }
+        if (!houve_troca) return;
+    }
+}
 /************************************************************************/
 
 /**
@@ -205,7 +218,18 @@ void vetor_ordenarSelection(Vetor* v);
  * Ordena o vetor com o algoritmos Insertion sort.
  * Parâmetro v: Ponteiro para a struct Vetor.
  */
-void vetor_ordenarInsertion(Vetor* v);
+void vetor_ordenarInsertion(Vetor* v){
+    int i,j;
+    for(i=1; i < v->qtde; i++){
+        int elemento = v->array[i];
+        j = i - 1;
+        while(j >= 0 && elemento < v->array[j]){
+            v->array[j+1] = v->array[j];
+            j--;        
+        }
+        v->array[j+1] = elemento;
+    }
+}
 /************************************************************************/
 
 /**
