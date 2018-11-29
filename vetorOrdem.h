@@ -11,7 +11,7 @@ typedef struct{
 }Vetor;
 
 /************************************************************************/
-void randomArray(Vetor* v, int inf, int sup, int tamanho) { // TESTADO !!
+void randomArray(Vetor* v, int inf, int sup, int tamanho) {
     srand((unsigned) time(NULL));
 
     for (int i = v->qtde; i < tamanho; i++) {
@@ -191,17 +191,7 @@ Vetor* vetor_clone(Vetor* v){
     return vClone;
 }
 /************************************************************************/
-void vetor_ordenarBuble(Vetor* v){
-
-}
-
-
-
-
-
-
-
-
+void vetor_ordenarBuble(Vetor* v);
 /************************************************************************/
 
 /**
@@ -224,6 +214,18 @@ void vetor_ordenarInsertion(Vetor* v);
  * Parâmetro n: elemento a ser procurado.
  * RETORNO: Se encontrado, devolve a posição do elemento no vetor e -1 caso contrário 
  */
-int vetor_buscaBinaria(Vetor* v, int n);
+int vetor_buscaBinaria(Vetor* v, int n){
+    int ini = 0;
+    int fim = v->tam-1;
 
-
+    while(ini <= fim){
+        int meio = (ini + fim) / 2;
+        if(n < v->array[meio])
+            fim = meio-1; // ajusta a posição final
+        else if(n > v->array[meio])
+            ini = meio+1; // ajusta a posição inicial
+        else
+            return meio;
+    }
+    return -1
+}

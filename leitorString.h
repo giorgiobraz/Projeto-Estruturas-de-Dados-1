@@ -7,11 +7,10 @@ typedef struct{
 
 /***************************** PROTOTIPOS ******************************/
 LeitorToken* leitor_criar(char* str, char delimitador);
-char* leitor_consumir1(LeitorToken* leitor);
-int leitor_consumir2(LeitorToken* leitor, char* token);
-int leitor_temMais(LeitorToken* leitor);
 void leitor_desalocar(LeitorToken* leitor);
-
+char* leitor_consumir1(LeitorToken* leitor);
+int leitor_temMais(LeitorToken* leitor);
+void leitorString_adicionaDelimitador(LeitorString* l, char delimitador);
 /*************************** IMPLEMENTACAO *****************************/
 LeitorToken* leitor_criar(char* str, char delimitador) {
     LeitorToken* l1 = (LeitorToken*) malloc(sizeof(LeitorToken));
@@ -22,7 +21,6 @@ LeitorToken* leitor_criar(char* str, char delimitador) {
     l1->breakString = 0;
     return l1;
 }
-
 /**********************************************************************/
 char* leitor_consumir1(LeitorToken* leitor) {
     char* tmp = (char*) calloc(leitor->qtdeString,sizeof(char));
@@ -36,20 +34,6 @@ char* leitor_consumir1(LeitorToken* leitor) {
     leitor->breakString++;
     return tmp;
 }
-
-/**********************************************************************/
-int leitor_consumir2(LeitorToken* leitor, char* token) {
-    int i = 0;
-    while(leitor->str[leitor->breakString] != leitor->delimitador) {
-        if (leitor->breakString >= leitor->qtdeString) break;
-        token[i] = leitor->str[leitor->breakString++];
-        i++;
-    }
-    token[i] = '\0';
-    leitor->breakString++;
-    return 1;
-}
-
 /**********************************************************************/
 int leitor_temMais(LeitorToken* leitor) {
     return (leitor->breakString < leitor->qtdeString);
@@ -58,4 +42,8 @@ int leitor_temMais(LeitorToken* leitor) {
 void leitor_desalocar(LeitorToken* leitor) {
     free(leitor->str);
     free(leitor);
+}
+/**********************************************************************/
+void leitorString_adicionaDelimitador(LeitorString* l, char delimitador){
+    l->delimitador = delimitador;
 }
