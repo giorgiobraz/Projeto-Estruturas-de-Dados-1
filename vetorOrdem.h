@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define TAM 10
+#define TAM 243000
 
 typedef enum boolean{false=0, true=1} Boolean;
 
@@ -10,6 +10,29 @@ typedef struct{
     int tam;
     int qtde;
 }Vetor;
+/******************************PROTÓTIPOS********************************/
+Vetor* vetor_criar();
+void randomArray(Vetor* v, int inf, int sup, int tamanho);
+void realoca(Vetor* v);
+Boolean vetor_append(Vetor* v, int elemento);
+Boolean vetor_inserir(Vetor* v, int elemento, int posicao);
+Boolean vetor_alterar(Vetor* v, int posicao, int novoElemento);
+int vetor_posElemento(Vetor* v, int elemento);
+Boolean vetor_remover1(Vetor* v, int posicao, int* endereco);
+int vetor_remover2(Vetor* v, int elemento);
+int vetor_tamanho(Vetor* v);
+void vetor_imprimir(Vetor* v);
+Boolean vetor_toString(Vetor* v, char* endereco);
+Vetor* vetor_criarParcialOrdenado(int tam, int percentual);
+void desaloca(Vetor* v);
+Vetor* vetor_criarAleatorio(int tam);
+Vetor* vetor_criarOrdenado(int tam, Ordem ordem);
+Vetor* vetor_clone(Vetor* v);
+void vetor_ordenarBuble(Vetor* v);
+void vetor_ordenarSelection(Vetor* v);
+void vetor_ordenarInsertion(Vetor* v);
+int vetor_buscaBinaria(Vetor* v, int n);
+void troca(int *a, int *b);
 
 /************************************************************************/
 void randomArray(Vetor* v, int inf, int sup, int tamanho) {
@@ -137,7 +160,7 @@ Boolean vetor_toString(Vetor* v, char* endereco){
     return 1;
 }
 /************************************************************************/
-Vetor* vetor_criarParcialOdenado(int tam, int percentual){
+Vetor* vetor_criarParcialOrdenado(int tam, int percentual){
     percentual = (percentual*tam/100);
     Vetor* vet = vetor_criar();
     for(int i = 0; i < percentual; i++){
@@ -159,7 +182,7 @@ Vetor* vetor_criarAleatorio(int tam) {
     return vet;
 }
 /************************************************************************/
-Vetor* vetor_criarOdenado(int tam, Ordem ordem){
+Vetor* vetor_criarOrdenado(int tam, Ordem ordem){
     Vetor* vet = vetor_criar();
     vet->array = (int*) calloc(tam,sizeof(int));
     vet->qtde = tam;
@@ -192,6 +215,12 @@ Vetor* vetor_clone(Vetor* v){
     return vClone;
 }
 /************************************************************************/
+void troca(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;   
+}
+
 void vetor_ordenarBuble(Vetor* v){
     int i, fim;
     for (fim=v->qtde-1; fim>0; fim--) {
@@ -251,5 +280,5 @@ int vetor_buscaBinaria(Vetor* v, int n){
         else
             return meio;
     }
-    return -1
+    return -1;
 }
