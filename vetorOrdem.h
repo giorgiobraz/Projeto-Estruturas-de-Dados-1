@@ -1,6 +1,5 @@
 #include <stdio.h>
 #define TAM 243000
-
 typedef enum boolean{false=0, true=1} Boolean;
 
 typedef enum ordem{ASCENDENTE=0, DESCENDENTE=1} Ordem;
@@ -33,6 +32,7 @@ void vetor_ordenarSelection(Vetor* v);
 void vetor_ordenarInsertion(Vetor* v);
 int vetor_buscaBinaria(Vetor* v, int n);
 void troca(int *a, int *b);
+int menorElemento(int v[], int n, int indice);
 
 /************************************************************************/
 void randomArray(Vetor* v, int inf, int sup, int tamanho) {
@@ -240,7 +240,23 @@ void vetor_ordenarBuble(Vetor* v){
  * Ordena o vetor com o algoritmos Selection sort.
  * Parâmetro v: Ponteiro para a struct Vetor.
  */
-void vetor_ordenarSelection(Vetor* v);
+void vetor_ordenarSelection(Vetor* v){
+    int i, min;    
+    for (i=0; i<v->qtde-1; i++){
+        min = menorElemento(v->array, v->qtde, i);
+        troca(&v->array[i], &v->array[min]);
+    }
+}
+
+int menorElemento(int v[], int n, int indice){
+    int i, min = indice;
+    for(i=indice+1; i<n; i++){
+        if(v[i] < v[min]){
+            min = i;
+        }
+    }
+    return min;
+}
 /************************************************************************/
 
 /**
