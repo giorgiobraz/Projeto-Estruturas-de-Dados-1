@@ -19,13 +19,13 @@ void leitorString_adicionaDelimitador(LeitorString* l, char delimitador);
 /***********************************************************************************/
 /*                                  IMPLEMENTACAO                                  */
 /***********************************************************************************/
-LeitorToken* leitor_criar(char* str, char delimitador) {
-    LeitorToken* l1 = (LeitorToken*) malloc(sizeof(LeitorToken));
+LeitorString* leitorString_criar(char* str, char delimitador) {
+    LeitorString* l1 = (LeitorString*) malloc(sizeof(LeitorString));
     l1->str = (char*) calloc (strlen(str)+1,sizeof(char)); // srtlen nao inclui '\0'
     strcpy(l1->str, str);
-    l1->delimitador = delimitador;
-    l1->qtdeString = 20;
-    l1->breakString = 0;
+    l1->delimitadores[0] = delimitador;
+    l1->tamStr = 20;
+    l1->pos = 0;
     return l1;
 }
 /***********************************************************************************/
@@ -34,21 +34,37 @@ void leitor_desalocar(LeitorToken* leitor) {
     free(leitor);
 }
 /***********************************************************************************/
+int leitorString_ler(LeitorString* leitor, char* endereco){{
+    int inicio, fim, tamToken;
+    inicio = leitor->pos;
+    char c = leitor->string[leitor->pos];
+
+    while(leitor->pos < leitor->tamString && !ehDelimitador(leitor, c)){
+        c = leitor->string[++leitor->pos];
+    }
+
+    fim = leitor->pos++;
+    tamToken = fim - inicio;
+
+    strncpy(endereco, leitor->string+inicio, tamToken);
+    endereco[tamToken] = '\0';
+    return 1;
+}
 int leitorString_ler(LeitorString* leitor, char* endereco){
-    endereco = (char*) calloc(leitor->qtdeString,sizeof(char));
-        int i=0;
-    while(ehDelimitador(char* delimitadores, char c)) {
-        if (leitor->breakString >= leitor->qtdeString) break;
-        endereco[i] = leitor->str[leitor->breakString++]; // cópia -> pós-incremento
+    endereco = (char*) calloc(leitor->tamStr,sizeof(char));
+    int i=0;
+    while(!ehDelimitador(char* delimitadores, char c)) {
+        if (leitor->pos >= leitor->tamStr) break;
+        endereco[i] = leitor->str[leitor->pos++]; // cópia -> pós-incremento
         i++;
     }
     endereco[i] = '\0';
-    leitor->breakString++;
-    return endereco;
+    leitor->pos++;
+    return 1;
 }
 /***********************************************************************************/
-int leitor_temMais(LeitorToken* leitor) {
-    return (leitor->breakString < leitor->qtdeString);
+int leitorString_temMais(LeitorToken* leitor) {
+    return (leitor->pos < leitor->tamStr);
 }
 
 int ehDelimitador(char* delimitadores, char c){
@@ -68,20 +84,3 @@ void leitorString_adicionaDelimitador(LeitorString* l, char delimitador){
 }
 
 
-
-char* consumirToken_2(StructToken* leitor, char* token){
-    int inicio, fim, tamToken;
-    inicio = leitor->pos;
-    char c = leitor->string[leitor->pos];
-
-    while(leitor->pos < leitor->tamString && !ehDelimitador(leitor, c)){
-        c = leitor->string[++leitor->pos];
-    }
-
-    fim = leitor->pos++;
-    tamToken = fim - inicio;
-
-    strncpy(token, leitor->string+inicio, tamToken);
-    token[tamToken] = '\0';
-    return token;
-}
