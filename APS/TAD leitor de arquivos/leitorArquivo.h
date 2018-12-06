@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "leitorString"
 
 typedef struct{
 	FILE *arquivo;
@@ -31,7 +32,23 @@ int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor);
 void FileScanner_desalocar(FileScanner* scanner);
 
 //IMPLEMENTACAO
+LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer){
+	LeitorArquivo* leitor = (LeitorArquivo*)malloc(sizeof(LeitorArquivo));
+
+	leitor->nomeArquivo = (char*)malloc(sizeof(arquivo));
+	strcpy(leitor->nomeArquivo, arquivo);
+
+	leitor->tamBuffer = tamBuffer;
+	leitor->buffer = (char*)calloc(tamBuffer, sizeof(char));
+	leitor->pos = 0;
+	leitor->delimitador = '\0';
+
+	leitor->arquivo = fopen(arquivo, "r");
+    return leitor;
+}
+
 void leitorArquivo_desalocar(LeitorArquivo* leitor){
+    fclose(leitor->arquivo);
     free(leitor->arquivo);
     free(leitor->nomeArquivo);
     free(leitor->buffer);
@@ -39,7 +56,13 @@ void leitorArquivo_desalocar(LeitorArquivo* leitor){
 }
 
 void FileScanner_desalocar(FileScanner* scanner){
+    fclose(scanner->arquivo);
     free(scanner->arquivo);
     free(scanner->buffer);
     free(scanner);
+}
+
+int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
+    
+    return 0;
 }
