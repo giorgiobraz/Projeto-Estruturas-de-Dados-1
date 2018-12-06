@@ -44,21 +44,20 @@ void leitorArquivo_desalocar(LeitorArquivo* leitor){
 
 int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
     int i;
-    if(leitor->pos > leitor->tamBuffer){
+    if(leitor->pos > 0 && leitor->buffer[leitor->pos-1] != D){
         while(leitor->buffer[leitor->pos] != D){
             leitor->pos--;
         }
-        for(i = leitor->pos; i < leitor->tamBuffer; i++){
-            if((leitor->buffer[i] = fgetc(leitor->arquivo)) == EOF) break;
-        }
-        leitor->pos = i;
-        leitor->buffer[leitor->pos] = '\0'; 
-        return 1;
     }
-    return 0;
+    for(i = 0; i < leitor->tamBuffer; i++){
+        if((leitor->buffer[i] = fgetc(leitor->arquivo)) == EOF) return 0;
+    }
+    leitor->pos = i;
+    leitor->buffer[leitor->pos] = '\0'; 
+    return 1;
 }
 
-int leitorArquivo_temMaisLinshas(LeitorArquivo* leitor){
+int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
     char* endereco;
     int retornar = leitorArquivo_ler(leitor, endereco);
     return retornar;
