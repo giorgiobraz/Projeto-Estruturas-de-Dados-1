@@ -37,7 +37,6 @@ LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer){
 
 void leitorArquivo_desalocar(LeitorArquivo* leitor){
     fclose(leitor->arquivo);
-    free(leitor->arquivo);
     free(leitor->nomeArquivo);
     free(leitor->buffer);
     free(leitor);
@@ -49,7 +48,7 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
         while(leitor->buffer[leitor->pos] != D){
             leitor->pos--;
         }
-        for(i = leitor->pos; i < leitor->tambuffer; i++){
+        for(i = leitor->pos; i < leitor->tamBuffer; i++){
             if((leitor->buffer[i] = fgetc(leitor->arquivo)) == EOF) break;
         }
         leitor->pos = i;
@@ -59,8 +58,8 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
     return 0;
 }
 
-int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
+int leitorArquivo_temMaisLinshas(LeitorArquivo* leitor){
     char* endereco;
-    int retornar = leitorArquivo_ler(leitor, &endereco);
+    int retornar = leitorArquivo_ler(leitor, endereco);
     return retornar;
 }
