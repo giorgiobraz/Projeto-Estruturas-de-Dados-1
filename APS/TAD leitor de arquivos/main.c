@@ -8,8 +8,7 @@ int main(){
     char* recebe;
     char* mostrar;
     LeitorArquivo* leitorArq = leitorArquivo_criar("Sadtxt", 21);
-    LeitorString* leitorStr = leitorString_criar(recebe, D);
-    leitorArquivo_ler(leitorArq);          
+    LeitorString* leitorStr = leitorString_criar(recebe, D);          
 
     while(leitorArquivo_ler(leitorArq) == 1){
         printf("-%s----//",leitorArq->buffer);

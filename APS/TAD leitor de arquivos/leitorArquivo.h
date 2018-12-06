@@ -47,6 +47,7 @@ int leitorArquivo_ler(LeitorArquivo* leitor){
     if(leitor->pos > 0 && leitor->buffer[leitor->pos-1] != D){
         while(leitor->buffer[leitor->pos] != D){
             leitor->pos--;
+            fseek( leitor->arquivo, -1, SEEK_CUR );
         }
     }
     for(i = 0; i < leitor->tamBuffer; i++){
