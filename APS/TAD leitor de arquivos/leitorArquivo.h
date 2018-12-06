@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define D '/'
+#define D ' '
 
 typedef struct{    
     FILE* arquivo;
@@ -16,7 +16,7 @@ typedef struct{
 //PROTOTIPOS
 LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer);
 void leitorArquivo_desalocar(LeitorArquivo* leitor);
-int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco);
+int leitorArquivo_ler(LeitorArquivo* leitor);
 int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor);
 
 //IMPLEMENTACAO
@@ -42,7 +42,7 @@ void leitorArquivo_desalocar(LeitorArquivo* leitor){
     free(leitor);
 }
 
-int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
+int leitorArquivo_ler(LeitorArquivo* leitor){
     int i;
     if(leitor->pos > 0 && leitor->buffer[leitor->pos-1] != D){
         while(leitor->buffer[leitor->pos] != D){
@@ -59,6 +59,6 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
 
 int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
     char* endereco;
-    int retornar = leitorArquivo_ler(leitor, endereco);
+    int retornar = leitorArquivo_ler(leitor);
     return retornar;
 }

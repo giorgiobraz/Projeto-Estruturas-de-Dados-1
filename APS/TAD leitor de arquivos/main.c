@@ -6,15 +6,15 @@
 
 int main(){
     char* recebe;
-    LeitorArquivo* leitorArq = leitorArquivo_criar("Sadtxt", 20);
-    leitorArquivo_ler(leitorArq, recebe);
+    char* mostrar;
+    LeitorArquivo* leitorArq = leitorArquivo_criar("Sadtxt", 21);
     LeitorString* leitorStr = leitorString_criar(recebe, D);
-    
-    while(leitorString_temMais(leitorStr)){
-        leitorString_ler(leitorStr, recebe);
-        printf("-%s--",recebe);          
+    leitorArquivo_ler(leitorArq);          
+
+    while(leitorArquivo_ler(leitorArq) == 1){
+        printf("-%s----//",leitorArq->buffer);
+        printf("\n");
     }
-    printf("\n");
     
     leitorString_desalocar(leitorStr);
     leitorArquivo_desalocar(leitorArq);
