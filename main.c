@@ -3,7 +3,8 @@
 #include <string.h>
 #include <time.h>
 #include "vetorOrdem.h"
-// #include "leitorString.h"
+#include "leitorString.h"
+#include "leitorArquivo.h"
 
 void main(){
     Vetor* array = vetor_criarParcialOrdenado(TAM, 50);
