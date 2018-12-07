@@ -21,11 +21,13 @@ int ehDelimitador(char* delimitadores, char c);
 /*                                  IMPLEMENTACAO                                  */
 /***********************************************************************************/
 LeitorString* leitorString_criar(char* str, char delimitador) {
+
     LeitorString* l1 = (LeitorString*) malloc(sizeof(LeitorString));
     l1->str = (char*) calloc (strlen(str)+1,sizeof(char)); // srtlen nao inclui '\0'
     strcpy(l1->str, str);
     l1->delimitadores[0] = delimitador;
-    l1->tamStr = 20;
+    l1->delimitadores[1] = '\0';
+    l1->tamStr = strlen(str);
     l1->pos = 0;
     return l1;
 }
@@ -40,15 +42,28 @@ int leitorString_ler(LeitorString* leitor, char* endereco){
     inicio = leitor->pos;
     char c = leitor->str[leitor->pos];
 
-    while(leitor->pos < leitor->tamStr && !ehDelimitador(leitor->delimitadores, c)){
-        c = leitor->str[++leitor->pos];
+    // while((leitor->pos < leitor->tamStr) && (!ehDelimitador(leitor->delimitadores, c))){
+    //     c = leitor->str[++leitor->pos];
+    // }
+    while((leitor->pos < leitor->tamStr) && (!ehDelimitador(leitor->delimitadores, c))){
+        c = leitor->str[leitor->pos];
+        leitor->pos++;
     }
 
-    fim = leitor->pos++;
+    //fim = leitor->pos++;
+    fim = leitor->pos;
+
     tamToken = fim - inicio;
 
-    strncpy(endereco, leitor->str+inicio, tamToken);
-    endereco[tamToken] = '\0';
+    endereco = (char*)malloc(tamToken * sizeof(char));
+
+    
+    for(int i = 0; i < tamToken; i++){
+        endereco[i] = leitor->str[inicio+i];
+        printf("%c", endereco[i]);
+    }
+    //strncpy(endereco, leitor->str+inicioç, tamToken);
+    // endereco[tamToken] = '\0';
     return 1;
 }
 /***********************************************************************************/

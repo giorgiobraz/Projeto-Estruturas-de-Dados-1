@@ -53,13 +53,13 @@ int leitorArquivo_ler(LeitorArquivo* leitor){
     for(i = 0; i < leitor->tamBuffer; i++){
         if((leitor->buffer[i] = fgetc(leitor->arquivo)) == EOF) return 0;
     }
-    leitor->pos = i;
+    leitor->pos = i-1;
     leitor->buffer[leitor->pos] = '\0'; 
     return 1;
 }
 
-int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
+/*int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
     char* endereco;
     int retornar = leitorArquivo_ler(leitor);
     return retornar;
-}
+}*/
