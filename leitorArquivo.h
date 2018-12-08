@@ -12,11 +12,11 @@ typedef struct{
 /***************************************************************************/
 /*                                PROTOTIPOS                               */
 /***************************************************************************/
-LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer);   /* [/] */
-void leitorArquivo_desalocar(LeitorArquivo* leitor);                /* [/] */
+LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer);   /* [X] */
 // le a linha toda do arquivo.
 int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco);       /* [/] */
-int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor);             /* [/] */
+int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor);             /* [X] */
+void leitorArquivo_desalocar(LeitorArquivo* leitor);                /* [X] */
 // AUXILIAR
 int leitorArquivo_preencherBuffer(LeitorArquivo* leitor);           /* [/] */
 
@@ -39,13 +39,6 @@ LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer){
     return leitor;
 }
 /***************************************************************************/
-void leitorArquivo_desalocar(LeitorArquivo* leitor){
-    fclose(leitor->arquivo);
-    free(leitor->nomeArquivo);
-    free(leitor->buffer);
-    free(leitor);
-}
-/***************************************************************************/
 int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
     // ler uma linha inteira
     endereco[0] = '\0';
@@ -54,12 +47,12 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
         flag = leitorArquivo_preencherBuffer(leitor);
         strcat(endereco, leitor->buffer);
     }
+    int tamEnd = strlen(endereco);
+    for(int i = 0; endereco[i] != '\0'; i++){
+        if(endereco[i] == '\r')
+            endereco[i] = '\0';
+    }
     return 0;
-}
-/***************************************************************************/
-int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
-    if(feof(leitor->arquivo)) return 0; // arquivo chegou ao fim.
-    return 1;
 }
 /***************************************************************************/
 int leitorArquivo_preencherBuffer(LeitorArquivo* leitor){
@@ -68,16 +61,38 @@ int leitorArquivo_preencherBuffer(LeitorArquivo* leitor){
     // verifica se completei o buffer (i < tam_buffer), neste caso preciso continuar executando esta funcao
     int i;
     char c;
-    //fgets(leitor->buffer, leitor->tam_buffer-1, leitor->arquivo);
 
-    for(i = 0; i < leitor->tamBuffer-2; i++){ // -1 para o '\0' do buffer.
-        c = fgetc(leitor->arquivo);
-        if(c == EOF || c == leitor->delimitador){
-            leitor->buffer[i-1] = '\0';
-            return 0;
-        }
-        leitor->buffer[i] = c;
+    fgets(leitor->buffer, leitor->tamBuffer-1, leitor->arquivo);
+
+    int readLen = strlen(leitor->buffer);
+    if (leitor->buffer[readLen-1] == leitor->delimitador) {
+        return 0;
     }
+
+    if (!leitorArquivo_temMaisLinhas(leitor)) {
+        return 0;
+    }
+
+    // for(i = 0; i < leitor->tamBuffer-2; i++){ // -1 para o '\0' do buffer.
+    //     c = fgetc(leitor->arquivo);
+    //     if(c == EOF || c == leitor->delimitador){
+    //         leitor->buffer[i] = '\0';
+    //         return 0;
+    //     }
+    //     leitor->buffer[i] = c;
+    // }
     
     return 1;
+}
+/***************************************************************************/
+int leitorArquivo_temMaisLinhas(LeitorArquivo* leitor){
+    if(feof(leitor->arquivo)) return 0; // arquivo chegou ao fim.
+    return 1;
+}
+/***************************************************************************/
+void leitorArquivo_desalocar(LeitorArquivo* leitor){
+    fclose(leitor->arquivo);
+    free(leitor->nomeArquivo);
+    free(leitor->buffer);
+    free(leitor);
 }
