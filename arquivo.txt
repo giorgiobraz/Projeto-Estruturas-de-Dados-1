@@ -5,3 +5,6 @@ só sei que chá é incrivel :>
 
 bla bla bla bla       bal bla bla bla
 lara lara larii la
+
+
+O conceito de algoritmo existe há séculos e o uso do conceito pode ser atribuído a matemáticos gregos, por exemplo a Peneira de Eratóstenes e o algoritmo de Euclides.

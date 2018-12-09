@@ -25,16 +25,12 @@ int leitorArquivo_preencherBuffer(LeitorArquivo* leitor);           /* [/] */
 /***************************************************************************/
 LeitorArquivo* leitorArquivo_criar(char* arquivo, int tamBuffer){
     LeitorArquivo* leitor = (LeitorArquivo*)malloc(sizeof(LeitorArquivo));
-
-    // pesquisar: strdup
     leitor->nomeArquivo = (char*)calloc(strlen(arquivo)+1, sizeof(char)); // strlen não atribui '\0'
     strcpy(leitor->nomeArquivo, arquivo);
-
     leitor->tamBuffer = tamBuffer + 1;
     leitor->buffer = (char*)calloc(tamBuffer, sizeof(char));
     leitor->pos = 1;
     leitor->delimitador = '\n'; // final da linha
-
     leitor->arquivo = fopen(arquivo, "r");
     return leitor;
 }
@@ -56,32 +52,17 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
 }
 /***************************************************************************/
 int leitorArquivo_preencherBuffer(LeitorArquivo* leitor){
-    // verifica se cheguei no delimitador (buffer[i] == delim)
-    // verifica se cheguei no fim do arquivo (arq == EOF)
-    // verifica se completei o buffer (i < tam_buffer), neste caso preciso continuar executando esta funcao
-    int i;
-    char c;
 
-    fgets(leitor->buffer, leitor->tamBuffer-1, leitor->arquivo);
+    fgets(leitor->buffer, leitor->tamBuffer-1, leitor->arquivo); // enche o buffer
 
     int readLen = strlen(leitor->buffer);
     if (leitor->buffer[readLen-1] == leitor->delimitador) {
+        
         return 0;
     }
-
     if (!leitorArquivo_temMaisLinhas(leitor)) {
         return 0;
     }
-
-    // for(i = 0; i < leitor->tamBuffer-2; i++){ // -1 para o '\0' do buffer.
-    //     c = fgetc(leitor->arquivo);
-    //     if(c == EOF || c == leitor->delimitador){
-    //         leitor->buffer[i] = '\0';
-    //         return 0;
-    //     }
-    //     leitor->buffer[i] = c;
-    // }
-    
     return 1;
 }
 /***************************************************************************/

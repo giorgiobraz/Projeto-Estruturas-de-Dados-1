@@ -34,6 +34,17 @@ void leitorString_desalocar(LeitorString* leitor) {
     free(leitor->str);
     free(leitor);
 }
+
+int ehDelimitador(char* delimitadores, char c){
+    int i;
+    for(i=0; i<strlen(delimitadores); i++){
+        if(c == delimitadores[i]){
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /***********************************************************************************/
 int leitorString_ler(LeitorString* leitor, char* endereco){
     int inicio, fim, tamToken;
@@ -69,15 +80,7 @@ int leitorString_temMais(LeitorString* leitor) {
     return (leitor->pos < leitor->tamStr);
 }
 
-int ehDelimitador(char* delimitadores, char c){
-    int i;
-    for(i=0; i<strlen(delimitadores); i++){
-        if(c == delimitadores[i]){
-            return 1;
-        }
-    }
-    return 0;
-}
+
 
 void leitorString_adicionaDelimitador(LeitorString* l, char delimitador){
     int pos = strlen(l->delimitadores);
