@@ -165,7 +165,23 @@ void vetor_ordenarBuble(Vetor* v){
     }
 }
 /************************************************************************/
-// void vetor_ordenarSelection(Vetor* v);
+void vetor_ordenarSelection(Vetor* v){
+     int i, min;    
+     for (i=0; i<v->qtde-1; i++){
+         min = menorElemento(v->array, v->qtde, i);
+         troca(&v->array[i], &v->array[min]);
+     }
+ }
+
+ int menorElemento(int v[], int n, int indice){
+     int i, min = indice;
+     for(i=indice+1; i<n; i++){
+         if(v[i] < v[min]){
+             min = i;
+         }
+     }
+     return min;
+ }
 /************************************************************************/
 void vetor_ordenarInsertion(Vetor* v){
     int i,j;
