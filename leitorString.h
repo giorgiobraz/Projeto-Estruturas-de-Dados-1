@@ -64,12 +64,14 @@ int leitorString_ler(LeitorString* leitor, char* endereco){
 
     tamToken = fim - inicio;
 
-    endereco = (char*)malloc(tamToken * sizeof(char));
+    //endereco = (char*)malloc(tamToken * sizeof(char));
 
     
     for(int i = 0; i < tamToken; i++){
+        if(ehDelimitador(leitor->delimitadores, leitor->str[inicio+i])) break;
         endereco[i] = leitor->str[inicio+i];
-        printf("%c", endereco[i]);
+        endereco[i+1] = 0;
+        //printf("%c", endereco[i]);
     }
     //strncpy(endereco, leitor->str+inicioç, tamToken);
     // endereco[tamToken] = '\0';

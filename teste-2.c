@@ -10,8 +10,8 @@ void teste2(){
     char token[50];
 
     LeitorString* l = leitorString_criar("aaaa bbb-cccc ccccc-dddd", ';');
-    // leitorString_adicionaDelimitador(l, '-');
-    //leitorString_adicionaDelimitador(l, '#');
+    leitorString_adicionaDelimitador(l, '-');
+    leitorString_adicionaDelimitador(l, ' ');
 
     while(leitorString_temMais(l)){
         leitorString_ler(l, token);
