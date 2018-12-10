@@ -8,6 +8,10 @@ typedef struct{
     char* buffer;
     int tamBuffer;
     int pos;
+    
+    int tamArquivo;
+    int qtdLida;
+    
 }LeitorArquivo;
 /***************************************************************************/
 /*                                PROTOTIPOS                               */
@@ -45,7 +49,7 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
     }
     int tamEnd = strlen(endereco);
     for(int i = 0; endereco[i] != '\0'; i++){
-        if(endereco[i] == '\r')
+        if(endereco[i] == '\r') // 'r' recursivo
             endereco[i] = '\0';
     }
     return 0;
@@ -53,7 +57,15 @@ int leitorArquivo_ler(LeitorArquivo* leitor, char* endereco){
 /***************************************************************************/
 int leitorArquivo_preencherBuffer(LeitorArquivo* leitor){
 
+    //int qtdeLida = fread(leitor->buffer, sizeof(char), leitor->tamBuffer, leitor->arquivo);
+    // leitor->buffer[qtdeLida] = '\0';
+
     fgets(leitor->buffer, leitor->tamBuffer-1, leitor->arquivo); // enche o buffer
+    // 
+    // printf () // qtde x buffer carregado
+
+
+    // leitor->buffer[leitor->tamBuffer-2] = '\0'; // tratando quebra de linha.
 
     int readLen = strlen(leitor->buffer);
     if (leitor->buffer[readLen-1] == leitor->delimitador) {
